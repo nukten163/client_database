@@ -1,0 +1,21 @@
+import os
+
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker, Session
+from collections.abc import Generator
+
+def get_db() -> Generator[Session, None, None]: # [yield, SendType, ReturnType]
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+load_dotenv()
+
+DATABASE_URL = os.environ["DATABASE_URL"]
+
+engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+SessionLocal = sessionmaker(autoflush=False, autocommit=False, bind=engine)
+Base = declarative_base() # returns the Base class your ORM models will subclass
