@@ -378,6 +378,9 @@ def delete_order(
     db.commit()
     return Response(status_code=204)
 
+@app.get("/test")
+def test():
+    return {"message": "Hello World"}
 
 # 3.2 Orders CRUD (required)
 # POST /orders — create an order for the current user; validate product_id exists (400).
